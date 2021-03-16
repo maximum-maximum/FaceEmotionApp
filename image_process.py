@@ -16,7 +16,6 @@ def get_face_position(img):
         face_box[i][2] += face_box[i][0]
         face_box[i][3] += face_box[i][1]
 
-    # print(face_box)
     return face_box
 
 
