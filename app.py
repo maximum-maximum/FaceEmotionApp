@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 import numpy as np
 import cv2
-from image_process import canny, get_face_position, predict
+from image_process import get_face_position, predict
 from datetime import datetime
 import os
 import shutil
@@ -41,7 +41,6 @@ def upload():
 
         # 変換
         face_box = get_face_position(img)
-        # img = canny(img)
 
         # 保存
         for i in range(face_box.shape[0]):
@@ -55,27 +54,13 @@ def upload():
 
         return redirect('/')
 
+
 @app.route('/select', methods=['POST'])
 def select():
-    # if request.files['select_face']:
-    #     # 画像として読み込み
-    #     stream = request.files['select_face'].stream
-    #     img_array = np.asarray(bytearray(stream.read()), dtype=np.uint8)
-    #     img = cv2.imdecode(img_array, 1)
-
-    #     # 変換
-    #     face_box = get_face_position(img)
-
-    print(request.form["select_face"])
-
-    print(SAVE_DIR + "/" + request.form["select_face"])
-    # cv2.imwrite(img)
-
-
     result = predict(SAVE_DIR + "/" + request.form["select_face"])
 
-    print(result)
     return render_template("result.html", img=SAVE_DIR + "/" + request.form["select_face"], result=result)
+
 
 @app.route('/clear')
 def clear():
@@ -83,6 +68,7 @@ def clear():
     if not os.path.isdir(SAVE_DIR):
         os.mkdir(SAVE_DIR)
     return redirect('/')
+
 
 if __name__ == '__main__':
     app.debug = True
