@@ -5,7 +5,7 @@ from tensorflow.python.keras.models import load_model
 
 
 def get_face_position(img):
-    face_cascade_path = './haarcascade_frontalface_default.xml'
+    face_cascade_path = 'static/haarcascade_frontalface_default.xml'
     face_cascade = cv2.CascadeClassifier(face_cascade_path)
 
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -26,7 +26,7 @@ def predict(img):
     img_resize = gray.resize((48, 48))
     img = np.array(img_resize).reshape(1, 48, 48, 1)
 
-    model = load_model('face_emotion.h5')
+    model = load_model('static/face_emotion.h5')
     pre = model.predict(img).reshape(7)
     arg = np.argsort(pre)[::-1]
     result = []
