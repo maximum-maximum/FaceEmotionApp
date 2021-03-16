@@ -35,15 +35,15 @@ def send_js(path):
 @app.route('/upload', methods=['POST'])
 def upload():
     if request.files['image']:
-        # 画像として読み込み
+        # Load
         stream = request.files['image'].stream
         img_array = np.asarray(bytearray(stream.read()), dtype=np.uint8)
         img = cv2.imdecode(img_array, 1)
 
-        # 変換
+        # Get face position
         face_box = get_face_position(img)
 
-        # 保存
+        # Save
         for i in range(face_box.shape[0]):
             dt_now = datetime.now().strftime("%Y_%m_%d_%_H_%M_%S_") + random_str(3)
             save_path = os.path.join(SAVE_DIR, dt_now + ".png")
@@ -64,7 +64,7 @@ def select():
 
         return render_template("result.html", img=SAVE_DIR + "/" + request.form["select_face"], result=result)
     else:
-        return render_template("result.html", result=["Can't find a face.", "Can't find a face.", "Can't find a face."])
+        return render_template("result.html", result=["Sorry, Can't find a face."])
 
 
 @app.route('/clear')

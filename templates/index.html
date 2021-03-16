@@ -1,13 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
 
+<!-- Upload Buttons -->
 {% if not images %}
 <form action="/upload" method="post" enctype="multipart/form-data">
   <input type="file" name="image" accept="image/png, image/jpeg">
-  <button type="submit">submit</button>
+  <button type="submit">Submit</button>
 </form>
 {% endif %}
+<!-- /Upload Buttons -->
 
+<!-- Face Selection -->
 {% if images %}
 <form action="/predict" method="post">
 
@@ -22,7 +25,7 @@
 <input type="submit" value="送信する">
 </form>
 
-<!-- 候補画像一覧 -->
+<!-- Images -->
   {% for path in images %}
     <div>
       <img src="images/{{ path }}" style="margin-top: 10px; vertical-align: bottom; width: 200px;">
@@ -30,5 +33,6 @@
     </div>
   {% endfor %}
 {% endif %}
+<!-- /Face Selection -->
 
 {% endblock %}
