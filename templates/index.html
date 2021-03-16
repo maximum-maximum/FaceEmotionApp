@@ -3,6 +3,7 @@
 
 <!-- Upload Buttons -->
 {% if not images %}
+<h3>表情分析したい画像を選択してください。</h3>
 <form action="/upload" method="post" enctype="multipart/form-data">
   <input type="file" id="file" name="image" accept="image/png, image/jpeg">
   <input type="submit" value="送信する" id="submit">
@@ -32,15 +33,16 @@
   {% endfor %}
   <option value="null">Not Exist</option>
 </select>
-<input type="submit" value="送信する" id="submit2">
+
+<input type="submit" value="送信する" id="candidate_submit">
 </form>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-      document.getElementById("submit2").disabled = true;
+      document.getElementById("candidate_submit").disabled = true;
     }, false);
     document.getElementById("select_face").addEventListener("change", function () {
-      document.getElementById("submit2").disabled = false;
+      document.getElementById("candidate_submit").disabled = false;
     }, false);
 </script>
 

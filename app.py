@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, send_from_directory
 import numpy as np
 import cv2
-from image_process import get_face_position, predict
+from image_process import get_face_position, analyze
 from datetime import datetime
 import os
 import shutil
@@ -45,7 +45,7 @@ def upload():
 
         # Save
         for i in range(face_box.shape[0]):
-            dt_now = datetime.now().strftime("%Y_%m_%d_%_H_%M_%S_") + random_str(3)
+            dt_now = datetime.now().strftime("%Y_%m_%d_%H_%M_%S_") + random_str(3)
             save_path = os.path.join(SAVE_DIR, dt_now + ".png")
 
             candidate = img[face_box[i][1]:face_box[i][3], face_box[i][0]:face_box[i][2]]
@@ -57,10 +57,11 @@ def upload():
 
 
 @app.route('/predict', methods=['POST'])
-def select():
+def predict():
     if request.form["select_face"] != "null":
-        print(request.form["select_face"])
-        result = predict(SAVE_DIR + "/" + request.form["select_face"])
+        # print("--------------------------")
+        # print(request.form["select_face"])
+        result = analyze(SAVE_DIR + "/" + request.form["select_face"])
 
         return render_template("result.html", img=SAVE_DIR + "/" + request.form["select_face"], result=result)
     else:

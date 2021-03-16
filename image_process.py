@@ -19,7 +19,7 @@ def get_face_position(img):
     return face_box
 
 
-def predict(img):
+def analyze(img):
     emotions = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
 
     gray = Image.open(img).convert('L')
