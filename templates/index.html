@@ -4,9 +4,20 @@
 <!-- Upload Buttons -->
 {% if not images %}
 <form action="/upload" method="post" enctype="multipart/form-data">
-  <input type="file" name="image" accept="image/png, image/jpeg">
-  <button type="submit">Submit</button>
+  <input type="file" id="file" name="image" accept="image/png, image/jpeg">
+  <button type="submit" id="submit">Submit</button>
 </form>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("submit").disabled = true;
+    }, false);
+
+    document.getElementById("file").addEventListener("change", function () {
+        if (document.getElementById("file").files.length > 0) {
+            document.getElementById("submit").disabled = false;
+        }
+    }, false);
+</script>
 {% endif %}
 <!-- /Upload Buttons -->
 
