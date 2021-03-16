@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, redirect, send_from_directory
 import numpy as np
 import cv2
 from image_process import get_face_position, predict
@@ -7,6 +7,7 @@ import os
 import shutil
 import string
 import random
+
 
 SAVE_DIR = "./images"
 if not os.path.isdir(SAVE_DIR):
@@ -55,18 +56,21 @@ def upload():
         return redirect('/')
 
 
-@app.route('/select', methods=['POST'])
+@app.route('/predict', methods=['POST'])
 def select():
-    result = predict(SAVE_DIR + "/" + request.form["select_face"])
+    if request.form["select_face"] != "null":
+        print(request.form["select_face"])
+        result = predict(SAVE_DIR + "/" + request.form["select_face"])
 
-    return render_template("result.html", img=SAVE_DIR + "/" + request.form["select_face"], result=result)
+        return render_template("result.html", img=SAVE_DIR + "/" + request.form["select_face"], result=result)
+    else:
+        return render_template("result.html", result=["Can't find a face.", "Can't find a face.", "Can't find a face."])
 
 
 @app.route('/clear')
 def clear():
     shutil.rmtree(SAVE_DIR)
-    if not os.path.isdir(SAVE_DIR):
-        os.mkdir(SAVE_DIR)
+    os.mkdir(SAVE_DIR)
     return redirect('/')
 
 
