@@ -76,7 +76,8 @@ def clear():
 
 
 if __name__ == '__main__':
-    app.debug = True
-    app.run(host='0.0.0.0', port=8000)
+    # app.debug = True
+    # app.run(host='0.0.0.0', port=8000)
+    app.run()
 
     # https://qiita.com/redshoga/items/60db7285a573a5e87eb6
