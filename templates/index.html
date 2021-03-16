@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block content %}
+
+{% if not images %}
+<form action="/upload" method="post" enctype="multipart/form-data">
+  <input type="file" name="image" accept="image/png, image/jpeg">
+  <button type="submit">submit</button>
+</form>
+{% endif %}
+
+{% if images %}
+<form action="/select" method="post">
+
+<select name="select_face">
+  <option hidden>顔画像を選択してください</option>
+  {% for path in images %}
+    <option value={{ path }}>{{ path }}</option>
+  {% endfor %}
+  <option value="null">Not Exist</option>
+</select>
+
+<input type="submit" value="送信する">
+</form>
+<!--
+{% endif %}
+
+
+{% if images %}
+-->
+  {% for path in images %}
+    <div>
+      <img src="images/{{ path }}" style="margin-top: 10px; vertical-align: bottom; width: 200px;">
+      {{ path }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+{% endblock %}
