@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, send_from_directory
+from flask import Flask, render_template, request, redirect, send_from_directory, url_for
 import numpy as np
 import cv2
 from image_process import get_face_position, analyze
@@ -73,6 +73,11 @@ def clear():
     shutil.rmtree(SAVE_DIR)
     os.mkdir(SAVE_DIR)
     return redirect('/')
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
