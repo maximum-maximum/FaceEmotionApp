@@ -105,22 +105,24 @@ findFaceBtn.addEventListener('click', e => {
         var continuous = false;
         var targetId = null;
         var canvas = document.getElementById('dest-canvas');
-        var ctx = canvas.getContext('2d'); 
+        var ctx = canvas.getContext('2d');
+
+        // 最初は領域外に出るように初期値として設定 
         ctx.rect(0, 0, 0, 0);
 
         canvas.addEventListener('mousemove', e => {
             for (let i = 0; i < faces.size(); ++i) {
                 if (ctx.isPointInPath(e.offsetX, e.offsetY)) {
-                    console.log('true');
+                    // console.log('true');
                     if (!continuous) {
                         ctx.fillStyle = 'rgba(255, 0, 255, 0.2)';
                         ctx.fill();
-                        targetId = i;
+                        targetId = indexAdjust(i-1, faces.size()-1);
                     }
                     continuous = true;
                 }
                 else {
-                    console.log('false');
+                    // console.log('false');
                     continuous = false;
                     cv.imshow('dest-canvas', src);
                     ctx.rect(faces.get(i).x, faces.get(i).y, faces.get(i).width, faces.get(i).height);
@@ -130,10 +132,16 @@ findFaceBtn.addEventListener('click', e => {
 
         canvas.addEventListener('click', e => {
             if (targetId != null) {
+                let dst = new cv.Mat();
+                let rect = new cv.Rect(faces.get(targetId).x, faces.get(targetId).y, faces.get(targetId).width, faces.get(targetId).height);
+                dst = cv.imread(srcImg).roi(rect);
+                cv.imshow('test-canvas', dst);
+                console.log('------click------');
                 console.log("target: "+targetId);
+                console.log('faces.get(targetId): ');
+                console.log(faces.get(targetId))
             }
         });
-        
     });   
 });
 
@@ -156,4 +164,12 @@ function isInCheck(faces) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fill();
     });
+}
+
+function indexAdjust(x, dim) {
+    if (x >= 0) {
+        return x;
+    } else {
+        return dim;
+    }
 }
