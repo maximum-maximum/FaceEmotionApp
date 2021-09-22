@@ -103,6 +103,7 @@ findFaceBtn.addEventListener('click', e => {
         cv.imshow('dest-canvas', src);
 
         var continuous = false;
+        var targetId = null;
         var canvas = document.getElementById('dest-canvas');
         var ctx = canvas.getContext('2d'); 
         ctx.rect(0, 0, 0, 0);
@@ -114,6 +115,7 @@ findFaceBtn.addEventListener('click', e => {
                     if (!continuous) {
                         ctx.fillStyle = 'rgba(255, 0, 255, 0.2)';
                         ctx.fill();
+                        targetId = i;
                     }
                     continuous = true;
                 }
@@ -125,6 +127,13 @@ findFaceBtn.addEventListener('click', e => {
                 } 
             }
         });
+
+        canvas.addEventListener('click', e => {
+            if (targetId != null) {
+                console.log("target: "+targetId);
+            }
+        });
+        
     });   
 });
 
