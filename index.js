@@ -102,28 +102,28 @@ findFaceBtn.addEventListener('click', e => {
 
         cv.imshow('dest-canvas', src);
 
-        // console.log(faces);
+        var continuous = false;
         var canvas = document.getElementById('dest-canvas');
         var ctx = canvas.getContext('2d'); 
-        ctx.rect(faces.get(0).x, faces.get(0).y, faces.get(0).width, faces.get(0).height);
-        
-        var continuous = false;
+        ctx.rect(0, 0, 0, 0);
 
         canvas.addEventListener('mousemove', e => {
-            if (ctx.isPointInPath(e.offsetX, e.offsetY)) {
-                console.log('true');
-                if (!continuous) {
-                    ctx.fillStyle = 'rgba(255, 0, 255, 0.2)';
-                    ctx.fill();
+            for (let i = 0; i < faces.size(); ++i) {
+                if (ctx.isPointInPath(e.offsetX, e.offsetY)) {
+                    console.log('true');
+                    if (!continuous) {
+                        ctx.fillStyle = 'rgba(255, 0, 255, 0.2)';
+                        ctx.fill();
+                    }
+                    continuous = true;
                 }
-                continuous = true;
+                else {
+                    console.log('false');
+                    continuous = false;
+                    cv.imshow('dest-canvas', src);
+                    ctx.rect(faces.get(i).x, faces.get(i).y, faces.get(i).width, faces.get(i).height);
+                } 
             }
-            else {
-                console.log('false');
-                continuous = false;
-                cv.imshow('dest-canvas', src);
-                ctx.rect(faces.get(0).x, faces.get(0).y, faces.get(0).width, faces.get(0).height);
-            } 
         });
     });   
 });
