@@ -16,7 +16,7 @@ function convertImageToGray(img) {
 }
 
 function convertImageToLineDrawing(img) {
-    const kernel = cv.getStructuringElement(cv.MORPH_RECT,new cv.Size(5,5));
+    const kernel = cv.getStructuringElement(cv.MORPH_RECT, new cv.Size(5, 5));
 
     const imgGray = new cv.Mat();
     cv.cvtColor(img, imgGray, cv.COLOR_RGBA2GRAY);
@@ -144,27 +144,6 @@ findFaceBtn.addEventListener('click', e => {
         });
     });   
 });
-
-function isInCheck(faces) {
-    const canvas = document.getElementById('dest-canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'rgba(255,0,255,0.2)';
-    ctx.rect(faces.get(0).x, faces.get(0).y, faces.get(0).width, faces.get(0).height);
-    ctx.fill();
-
-    canvas.addEventListener('mousemove', e => {
-        if (ctx.isPointInPath(e.offsetX, e.offsetY)) {
-            ctx.fillStyle = 'green';
-            console.log('true');
-        }
-        else {
-            ctx.fillStyle = 'red';
-            console.log('false');
-        }
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fill();
-    });
-}
 
 function indexAdjust(x, dim) {
     if (x >= 0) {
