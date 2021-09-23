@@ -111,6 +111,7 @@ findFaceBtn.addEventListener('click', e => {
         cv.imshow('dest-canvas', src);
 
         var continuous = false;
+        var isInArea = false;
         var targetId = null;
         var ctx = canvas.getContext('2d');
 
@@ -126,9 +127,11 @@ findFaceBtn.addEventListener('click', e => {
                         targetId = indexAdjust(i-1, faces.size()-1);
                     }
                     continuous = true;
+                    isInArea = true;
                 }
                 else {
                     continuous = false;
+                    isInArea = false;
                     cv.imshow('dest-canvas', src);
                     ctx.rect(faces.get(i).x, faces.get(i).y, faces.get(i).width, faces.get(i).height);
                 } 
@@ -136,7 +139,7 @@ findFaceBtn.addEventListener('click', e => {
         });
 
         canvas.addEventListener('click', e => {
-            if (targetId != null) {
+            if (targetId != null && isInArea) {
                 let dst = new cv.Mat();
                 let rect = new cv.Rect(faces.get(targetId).x, faces.get(targetId).y, faces.get(targetId).width, faces.get(targetId).height);
                 dst = cv.imread(srcImg).roi(rect);
