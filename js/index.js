@@ -160,8 +160,6 @@ predictBtn.addEventListener('click', e => {
     tf.loadLayersModel('model/model.json').then(model => {
         const MODEL_HEIGHT = model.input.shape[1];
         const MODEL_WIDTH = model.input.shape[2];
-        const MODEL_CHANNEL = model.input.shape[3];
-        console.log(model.input);
 
         /* Read image and convert into tensor */
         const img_org = document.getElementById('face-canvas');
