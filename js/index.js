@@ -198,7 +198,7 @@ predictBtn.addEventListener('click', e => {
             if (maxAccuracyIndex === rowIndex) {
             el.parentNode.classList.add('is-selected');
             }
-            el.innerText = accuracyScores[rowIndex];
+            el.innerText = String(accuracyScores[rowIndex]).slice(0, 8);
         })
 
     });
