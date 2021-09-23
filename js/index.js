@@ -7,6 +7,7 @@ const grayScaleBtn = document.getElementById('gray-scale-btn');
 const lineDrawBtn = document.getElementById('linedraw-btn');
 const downloadBtn = document.getElementById('download-btn');
 const findFaceBtn = document.getElementById('findface-btn');
+const predictBtn = document.getElementById('predict-btn');
 
 
 function convertImageToGray(img) {
@@ -109,6 +110,8 @@ findFaceBtn.addEventListener('click', e => {
         }
 
         cv.imshow('dest-canvas', src);
+        // src.delete();
+        gray.delete();
 
         var continuous = false;
         var isInArea = false;
@@ -133,6 +136,7 @@ findFaceBtn.addEventListener('click', e => {
                     continuous = false;
                     isInArea = false;
                     cv.imshow('dest-canvas', src);
+                    // src.delete();
                     ctx.rect(faces.get(i).x, faces.get(i).y, faces.get(i).width, faces.get(i).height);
                 } 
             }
@@ -144,6 +148,7 @@ findFaceBtn.addEventListener('click', e => {
                 let rect = new cv.Rect(faces.get(targetId).x, faces.get(targetId).y, faces.get(targetId).width, faces.get(targetId).height);
                 dst = cv.imread(srcImg).roi(rect);
                 cv.imshow('test-canvas', dst);
+                dst.delete();
             }
         });
     });   
