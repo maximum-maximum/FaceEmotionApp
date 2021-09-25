@@ -206,17 +206,33 @@ predictBtn.addEventListener("click", (e) => {
         console.log(emotions[i] + ": " + accuracyScores[i]);
       }
 
+      const orderedAccuracyScores = accuracyScores
+        .slice()
+        .sort((a, b) => b - a);
+
       const maxAccuracyIndex = accuracyScores.indexOf(
         Math.max.apply(null, accuracyScores)
       );
-      const elements = document.querySelectorAll(".accuracy");
-      elements.forEach((el) => {
-        el.parentNode.classList.remove("is-selected");
-        const rowIndex = Number(el.dataset.rowIndex);
+
+      const accuracyElements = document.querySelectorAll(".accuracy");
+      accuracyElements.forEach((element, index) => {
+        element.parentNode.classList.remove("is-selected");
+        const rowIndex = Number(element.dataset.rowIndex);
         if (maxAccuracyIndex === rowIndex) {
-          el.parentNode.classList.add("is-selected");
+          element.parentNode.classList.add("is-selected");
         }
-        el.innerText = String(accuracyScores[rowIndex]).slice(0, 8);
+        element.innerText = String(orderedAccuracyScores[index]).slice(0, 8);
+      });
+
+      const emotionElements = document.querySelectorAll(".emotion");
+      emotionElements.forEach((element, index) => {
+        element.parentNode.classList.remove("is-selected");
+        const rowIndex = Number(element.dataset.rowIndex);
+        if (maxAccuracyIndex === rowIndex) {
+          element.parentNode.classList.add("is-selected");
+        }
+        element.innerText =
+          emotions[accuracyScores.indexOf(orderedAccuracyScores[index])];
       });
     });
   }
