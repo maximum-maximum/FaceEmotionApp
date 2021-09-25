@@ -203,6 +203,9 @@ predictBtn.addEventListener("click", (e) => {
       /* Inference */
       const accuracyScores = model.predict(inputTensor).dataSync();
       for (let i = 0; i < emotions.length; ++i) {
+        if (String(accuracyScores[i]).indexOf(0)) {
+          accuracyScores[i] = 0;
+        }
         console.log(emotions[i] + ": " + accuracyScores[i]);
       }
 
