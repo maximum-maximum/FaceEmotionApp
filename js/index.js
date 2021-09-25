@@ -206,33 +206,25 @@ predictBtn.addEventListener("click", (e) => {
         console.log(emotions[i] + ": " + accuracyScores[i]);
       }
 
+      /* Result */
       const orderedAccuracyScores = accuracyScores
         .slice()
         .sort((a, b) => b - a);
-
       const maxAccuracyIndex = accuracyScores.indexOf(
         Math.max.apply(null, accuracyScores)
       );
-
-      const accuracyElements = document.querySelectorAll(".accuracy");
-      accuracyElements.forEach((element, index) => {
-        element.parentNode.classList.remove("is-selected");
-        const rowIndex = Number(element.dataset.rowIndex);
-        if (maxAccuracyIndex === rowIndex) {
-          element.parentNode.classList.add("is-selected");
-        }
-        element.innerText = String(orderedAccuracyScores[index]).slice(0, 8);
-      });
-
-      const emotionElements = document.querySelectorAll(".emotion");
-      emotionElements.forEach((element, index) => {
-        element.parentNode.classList.remove("is-selected");
-        const rowIndex = Number(element.dataset.rowIndex);
-        if (maxAccuracyIndex === rowIndex) {
-          element.parentNode.classList.add("is-selected");
-        }
-        element.innerText =
+      const elements = document.querySelectorAll(".result");
+      elements.forEach((element, index) => {
+        element.childNodes[1].innerText =
           emotions[accuracyScores.indexOf(orderedAccuracyScores[index])];
+        element.childNodes[3].innerText = String(
+          orderedAccuracyScores[index]
+        ).slice(0, 8);
+        element.parentNode.classList.remove("is-selected");
+        const rowIndex = Number(element.dataset.rowIndex);
+        if (maxAccuracyIndex === rowIndex) {
+          element.parentNode.classList.add("is-selected");
+        }
       });
     });
   }
