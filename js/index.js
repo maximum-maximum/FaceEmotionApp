@@ -165,7 +165,7 @@ predictBtn.addEventListener('click', e => {
         const img_org = document.getElementById('face-canvas');
         let inputTensor = tf.browser.fromPixels(img_org, 3);  // get rgb (without alpha)
 
-        /* Resize to model input size (28x28) */
+        /* Resize to model input size (48x48) */
         inputTensor = inputTensor.resizeBilinear([MODEL_HEIGHT, MODEL_WIDTH])
 
         /* Convert to grayscale (keep dimension(HWC))*/
@@ -187,8 +187,6 @@ predictBtn.addEventListener('click', e => {
         }
 
         const maxAccuracyIndex = accuracyScores.indexOf(Math.max.apply(null, accuracyScores));
-        console.log(maxAccuracyIndex);
-
         const elements = document.querySelectorAll(".accuracy");
         elements.forEach(el => {
             el.parentNode.classList.remove('is-selected');
@@ -198,6 +196,5 @@ predictBtn.addEventListener('click', e => {
             }
             el.innerText = String(accuracyScores[rowIndex]).slice(0, 8);
         })
-
     });
 });
