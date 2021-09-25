@@ -197,12 +197,6 @@ predictBtn.addEventListener("click", (e) => {
       /* Convert to grayscale (keep dimension(HWC))*/
       inputTensor = inputTensor.mean(2, true);
 
-      /* Reverse black and white */
-      inputTensor = tf.sub(255, inputTensor);
-
-      /* 0.0 - 1.0 */
-      inputTensor = inputTensor.cast("float32").div(tf.scalar(255));
-
       /* expand dimension (HWC ->  NHWC) */
       inputTensor = inputTensor.expandDims();
 
