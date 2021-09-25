@@ -8,6 +8,7 @@ const lineDrawBtn = document.getElementById('linedraw-btn');
 const downloadBtn = document.getElementById('download-btn');
 const findFaceBtn = document.getElementById('findface-btn');
 const predictBtn = document.getElementById('predict-btn');
+var isSelected = false;
 
 
 function convertImageToGray(img) {
@@ -144,6 +145,7 @@ findFaceBtn.addEventListener('click', e => {
 
         canvas.addEventListener('click', e => {
             if (targetId != null && isInArea) {
+                isSelected = true;
                 let dst = new cv.Mat();
                 let rect = new cv.Rect(faces.get(targetId).x, faces.get(targetId).y, faces.get(targetId).width, faces.get(targetId).height);
                 dst = cv.imread(srcImg).roi(rect);
@@ -155,46 +157,48 @@ findFaceBtn.addEventListener('click', e => {
 });
 
 predictBtn.addEventListener('click', e => {
-    const emotions = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral'];
+    if (isSelected) {
+        const emotions = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral'];
     
-    tf.loadLayersModel('model/model.json').then(model => {
-        const MODEL_HEIGHT = model.input.shape[1];
-        const MODEL_WIDTH = model.input.shape[2];
+        tf.loadLayersModel('model/model.json').then(model => {
+            const MODEL_HEIGHT = model.input.shape[1];
+            const MODEL_WIDTH = model.input.shape[2];
 
-        /* Read image and convert into tensor */
-        const img_org = document.getElementById('face-canvas');
-        let inputTensor = tf.browser.fromPixels(img_org, 3);  // get rgb (without alpha)
+            /* Read image and convert into tensor */
+            const img_org = document.getElementById('face-canvas');
+            let inputTensor = tf.browser.fromPixels(img_org, 3);  // get rgb (without alpha)
 
-        /* Resize to model input size (48x48) */
-        inputTensor = inputTensor.resizeBilinear([MODEL_HEIGHT, MODEL_WIDTH])
+            /* Resize to model input size (48x48) */
+            inputTensor = inputTensor.resizeBilinear([MODEL_HEIGHT, MODEL_WIDTH])
 
-        /* Convert to grayscale (keep dimension(HWC))*/
-        inputTensor = inputTensor.mean(2, true);
+            /* Convert to grayscale (keep dimension(HWC))*/
+            inputTensor = inputTensor.mean(2, true);
 
-        /* Reverse black and white */
-        inputTensor = tf.sub(255, inputTensor);  
+            /* Reverse black and white */
+            inputTensor = tf.sub(255, inputTensor);  
 
-        /* 0.0 - 1.0 */
-        inputTensor = inputTensor.cast("float32").div(tf.scalar(255));
+            /* 0.0 - 1.0 */
+            inputTensor = inputTensor.cast("float32").div(tf.scalar(255));
 
-        /* expand dimension (HWC ->  NHWC) */
-        inputTensor = inputTensor.expandDims();
+            /* expand dimension (HWC ->  NHWC) */
+            inputTensor = inputTensor.expandDims();
 
-        /* Inference */
-        const accuracyScores = model.predict(inputTensor).dataSync();
-        for (let i = 0; i < emotions.length; ++i) {
-            console.log(emotions[i] + ': ' + accuracyScores[i]);
-        }
-
-        const maxAccuracyIndex = accuracyScores.indexOf(Math.max.apply(null, accuracyScores));
-        const elements = document.querySelectorAll(".accuracy");
-        elements.forEach(el => {
-            el.parentNode.classList.remove('is-selected');
-            const rowIndex = Number(el.dataset.rowIndex);
-            if (maxAccuracyIndex === rowIndex) {
-            el.parentNode.classList.add('is-selected');
+            /* Inference */
+            const accuracyScores = model.predict(inputTensor).dataSync();
+            for (let i = 0; i < emotions.length; ++i) {
+                console.log(emotions[i] + ': ' + accuracyScores[i]);
             }
-            el.innerText = String(accuracyScores[rowIndex]).slice(0, 8);
-        })
-    });
+
+            const maxAccuracyIndex = accuracyScores.indexOf(Math.max.apply(null, accuracyScores));
+            const elements = document.querySelectorAll(".accuracy");
+            elements.forEach(el => {
+                el.parentNode.classList.remove('is-selected');
+                const rowIndex = Number(el.dataset.rowIndex);
+                if (maxAccuracyIndex === rowIndex) {
+                el.parentNode.classList.add('is-selected');
+                }
+                el.innerText = String(accuracyScores[rowIndex]).slice(0, 8);
+            })
+        });
+    }
 });
