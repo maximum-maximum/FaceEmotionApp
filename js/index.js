@@ -125,7 +125,7 @@ findFaceBtn.addEventListener("click", (e) => {
     var targetId = null;
     var ctx = canvas.getContext("2d");
 
-    // 初期値
+    /* Set the initial value */
     ctx.rect(0, 0, 0, 0);
 
     canvas.addEventListener("mousemove", (e) => {
@@ -197,7 +197,7 @@ predictBtn.addEventListener("click", (e) => {
       /* Convert to grayscale (keep dimension(HWC))*/
       inputTensor = inputTensor.mean(2, true);
 
-      /* expand dimension (HWC ->  NHWC) */
+      /* Expand dimension (HWC ->  NHWC) */
       inputTensor = inputTensor.expandDims();
 
       /* Inference */
@@ -215,16 +215,20 @@ predictBtn.addEventListener("click", (e) => {
       );
       const elements = document.querySelectorAll(".result");
       elements.forEach((element, index) => {
-        element.childNodes[1].innerText =
-          emotions[accuracyScores.indexOf(orderedAccuracyScores[index])];
-        element.childNodes[3].innerText = String(
-          orderedAccuracyScores[index]
-        ).slice(0, 8);
         element.parentNode.classList.remove("is-selected");
         const rowIndex = Number(element.dataset.rowIndex);
         if (maxAccuracyIndex === rowIndex) {
           element.parentNode.classList.add("is-selected");
         }
+
+        /* Show Emotion */
+        element.childNodes[1].innerText =
+          emotions[accuracyScores.indexOf(orderedAccuracyScores[index])];
+
+        /* Show Accuracy */
+        element.childNodes[3].innerText = String(
+          orderedAccuracyScores[index]
+        ).slice(0, 8);
       });
     });
   }
