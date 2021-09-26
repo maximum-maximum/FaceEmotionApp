@@ -1,0 +1,19 @@
+.container {
+  background-color: #eeeeee;
+}
+
+.src-image {
+  width: 400px;
+}
+
+#face-canvas {
+  width: 200px;
+}
+
+#hidden-canvas {
+  display: none;
+}
+
+#hidden-image {
+  display: none;
+}

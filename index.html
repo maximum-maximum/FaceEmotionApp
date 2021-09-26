@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
     <title>Face Emotion App</title>
   </head>
 
@@ -10,7 +11,7 @@
     </header>
     <hr />
 
-    <div class="container" style="background-color: #eeeeee">
+    <div class="container">
       <table>
         <tr>
           <th>source</th>
@@ -18,12 +19,12 @@
         </tr>
         <tr>
           <td>
-            <img src="./img/lena.jpg" id="src-image" style="width: 400px" />
-            <img id="hidden-image" src="./img/lena.jpg" style="display: none" />
+            <img id="src-image" src="./img/lena.jpg" />
+            <img id="hidden-image" src="./img/lena.jpg" />
           </td>
           <td>
             <canvas id="dest-canvas"></canvas>
-            <canvas id="hidden-canvas" style="display: none"></canvas>
+            <canvas id="hidden-canvas"></canvas>
           </td>
         </tr>
         <tr>
