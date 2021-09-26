@@ -7,11 +7,11 @@ const findFaceBtn = document.getElementById("findface-btn");
 const predictBtn = document.getElementById("predict-btn");
 var isSelected = false;
 
-function indexAdjust(x, dim) {
+function indexAdjust(x, y) {
   if (x >= 0) {
     return x;
   } else {
-    return dim;
+    return y;
   }
 }
 
@@ -131,7 +131,7 @@ predictBtn.addEventListener("click", (e) => {
       /* Convert to grayscale (keep dimension(HWC))*/
       inputTensor = inputTensor.mean(2, true);
 
-      /* Expand dimension (HWC ->  NHWC) */
+      /* Expand dimension (HWC -> NHWC) */
       inputTensor = inputTensor.expandDims();
 
       /* Inference */
