@@ -137,9 +137,6 @@ predictBtn.addEventListener("click", (e) => {
       /* Inference */
       const accuracyScores = model.predict(inputTensor).dataSync();
       for (let i = 0; i < emotions.length; ++i) {
-        if (String(accuracyScores[i]).indexOf(0)) {
-          accuracyScores[i] = 0;
-        }
         console.log(emotions[i] + ": " + accuracyScores[i]);
       }
 
@@ -163,9 +160,15 @@ predictBtn.addEventListener("click", (e) => {
           emotions[accuracyScores.indexOf(orderedAccuracyScores[index])];
 
         /* Show Accuracy */
-        element.childNodes[3].innerText = String(
-          orderedAccuracyScores[index]
-        ).slice(0, 8);
+        if (String(orderedAccuracyScores[index]).indexOf(0)) {
+          element.childNodes[3].innerText = Num2FracStr(
+            orderedAccuracyScores[index]
+          ).slice(0, 8);
+        } else {
+          element.childNodes[3].innerText = String(
+            orderedAccuracyScores[index]
+          ).slice(0, 8);
+        }
       });
     });
   }
