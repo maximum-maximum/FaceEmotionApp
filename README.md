@@ -1,1 +1,3 @@
-https://maximum-maximum.github.io/FaceRecognition/
+# FaceEmotionApp
+
+https://maximum-maximum.github.io/FaceEmotionApp/
