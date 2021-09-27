@@ -1,10 +1,11 @@
 const srcImg = document.getElementById("src-image");
 const fileInput = document.getElementById("input-file");
 const canvas = document.getElementById("dest-canvas");
+const faceCanvas = document.getElementById("face-canvas");
 const hiddenCanvas = document.getElementById("hidden-canvas");
 const detectFaceBtn = document.getElementById("detectface-btn");
 const predictBtn = document.getElementById("predict-btn");
-let ctx = canvas.getContext("2d");
+const ctx = canvas.getContext("2d");
 let isInArea = false;
 let isSelected = false;
 let isDetected = false;
@@ -73,8 +74,7 @@ predictBtn.addEventListener("click", (e) => {
       const MODEL_WIDTH = model.input.shape[2];
 
       /* Read image and convert into tensor */
-      const img_org = document.getElementById("face-canvas");
-      let inputTensor = tf.browser.fromPixels(img_org, 3); // get rgb (without alpha)
+      let inputTensor = tf.browser.fromPixels(faceCanvas, 3); // get rgb (without alpha)
 
       /* Resize to model input size (48x48) */
       inputTensor = inputTensor.resizeBilinear([MODEL_HEIGHT, MODEL_WIDTH]);
@@ -134,11 +134,9 @@ canvas.addEventListener("mousemove", (e) => {
           ctx.fill();
           targetId = indexAdjust(i - 1, faces.size() - 1);
         }
-        continuous = true;
         isInArea = true;
+        continuous = true;
       } else {
-        continuous = false;
-        isInArea = false;
         cv.imshow("dest-canvas", src);
         ctx.rect(
           faces.get(i).x,
@@ -146,14 +144,15 @@ canvas.addEventListener("mousemove", (e) => {
           faces.get(i).width,
           faces.get(i).height
         );
+        isInArea = false;
+        continuous = false;
       }
     }
   }
 });
 
 canvas.addEventListener("click", (e) => {
-  if (targetId != null && isInArea) {
-    isSelected = true;
+  if (isInArea && targetId != null) {
     let dst = new cv.Mat();
     let rect = new cv.Rect(
       faces.get(targetId).x,
@@ -164,6 +163,7 @@ canvas.addEventListener("click", (e) => {
     dst = cv.imread(srcImg).roi(rect);
     cv.imshow("face-canvas", dst);
     dst.delete();
+    isSelected = true;
   }
 });
 
