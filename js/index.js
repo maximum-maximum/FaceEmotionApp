@@ -1,41 +1,29 @@
 const srcImg = document.getElementById("src-image");
-const hiddenImg = document.getElementById("hidden-image");
 const fileInput = document.getElementById("input-file");
 const canvas = document.getElementById("dest-canvas");
 const hiddenCanvas = document.getElementById("hidden-canvas");
 const findFaceBtn = document.getElementById("findface-btn");
 const predictBtn = document.getElementById("predict-btn");
-let isSelected = false;
+let ctx = canvas.getContext("2d");
 let isInArea = false;
+let isSelected = false;
 let continuous = false;
 let targetId = null;
-let faces;
 let src;
-let ctx = canvas.getContext("2d");
+let faces;
 
 /* Set the initial value */
 ctx.rect(0, 0, 0, 0);
-
-function indexAdjust(x, y) {
-  if (x >= 0) {
-    return x;
-  } else {
-    return y;
-  }
-}
 
 fileInput.addEventListener(
   "change",
   (e) => {
     srcImg.src = URL.createObjectURL(e.target.files[0]);
-    hiddenImg.src = URL.createObjectURL(e.target.files[0]);
   },
   false
 );
 
 findFaceBtn.addEventListener("click", (e) => {
-  fileInput.disabled = true;
-  findFaceBtn.disabled = true;
   const utils = new Utils("errorMessage");
   const faceCascadeFile = "haarcascade_frontalface_default.xml";
   utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, () => {
@@ -47,7 +35,6 @@ findFaceBtn.addEventListener("click", (e) => {
     faceCascade.load(faceCascadeFile);
     let msize = new cv.Size(0, 0);
     faceCascade.detectMultiScale(gray, faces, 1.1, 3, 0, msize, msize);
-
     for (let i = 0; i < faces.size(); ++i) {
       let roiGray = gray.roi(faces.get(i));
       let roiSrc = src.roi(faces.get(i));
@@ -63,46 +50,8 @@ findFaceBtn.addEventListener("click", (e) => {
     gray.delete();
     cv.imshow("dest-canvas", src);
   });
-});
-
-canvas.addEventListener("mousemove", (e) => {
-  for (let i = 0; i < faces.size(); ++i) {
-    if (ctx.isPointInPath(e.offsetX, e.offsetY)) {
-      if (!continuous) {
-        ctx.fillStyle = "rgba(255, 0, 255, 0.2)";
-        ctx.fill();
-        targetId = indexAdjust(i - 1, faces.size() - 1);
-      }
-      continuous = true;
-      isInArea = true;
-    } else {
-      continuous = false;
-      isInArea = false;
-      cv.imshow("dest-canvas", src);
-      ctx.rect(
-        faces.get(i).x,
-        faces.get(i).y,
-        faces.get(i).width,
-        faces.get(i).height
-      );
-    }
-  }
-});
-
-canvas.addEventListener("click", (e) => {
-  if (targetId != null && isInArea) {
-    isSelected = true;
-    let dst = new cv.Mat();
-    let rect = new cv.Rect(
-      faces.get(targetId).x,
-      faces.get(targetId).y,
-      faces.get(targetId).width,
-      faces.get(targetId).height
-    );
-    dst = cv.imread(srcImg).roi(rect);
-    cv.imshow("face-canvas", dst);
-    dst.delete();
-  }
+  fileInput.disabled = true;
+  findFaceBtn.disabled = true;
 });
 
 predictBtn.addEventListener("click", (e) => {
@@ -173,3 +122,51 @@ predictBtn.addEventListener("click", (e) => {
     });
   }
 });
+
+canvas.addEventListener("mousemove", (e) => {
+  for (let i = 0; i < faces.size(); ++i) {
+    if (ctx.isPointInPath(e.offsetX, e.offsetY)) {
+      if (!continuous) {
+        ctx.fillStyle = "rgba(255, 0, 255, 0.2)";
+        ctx.fill();
+        targetId = indexAdjust(i - 1, faces.size() - 1);
+      }
+      continuous = true;
+      isInArea = true;
+    } else {
+      continuous = false;
+      isInArea = false;
+      cv.imshow("dest-canvas", src);
+      ctx.rect(
+        faces.get(i).x,
+        faces.get(i).y,
+        faces.get(i).width,
+        faces.get(i).height
+      );
+    }
+  }
+});
+
+canvas.addEventListener("click", (e) => {
+  if (targetId != null && isInArea) {
+    isSelected = true;
+    let dst = new cv.Mat();
+    let rect = new cv.Rect(
+      faces.get(targetId).x,
+      faces.get(targetId).y,
+      faces.get(targetId).width,
+      faces.get(targetId).height
+    );
+    dst = cv.imread(srcImg).roi(rect);
+    cv.imshow("face-canvas", dst);
+    dst.delete();
+  }
+});
+
+function indexAdjust(x, y) {
+  if (x >= 0) {
+    return x;
+  } else {
+    return y;
+  }
+}
