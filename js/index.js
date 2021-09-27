@@ -5,7 +5,16 @@ const canvas = document.getElementById("dest-canvas");
 const hiddenCanvas = document.getElementById("hidden-canvas");
 const findFaceBtn = document.getElementById("findface-btn");
 const predictBtn = document.getElementById("predict-btn");
-var isSelected = false;
+let isSelected = false;
+let isInArea = false;
+let continuous = false;
+let targetId = null;
+let faces;
+let src;
+let ctx = canvas.getContext("2d");
+
+/* Set the initial value */
+ctx.rect(0, 0, 0, 0);
 
 function indexAdjust(x, y) {
   if (x >= 0) {
@@ -25,13 +34,15 @@ fileInput.addEventListener(
 );
 
 findFaceBtn.addEventListener("click", (e) => {
+  fileInput.disabled = true;
+  findFaceBtn.disabled = true;
   const utils = new Utils("errorMessage");
   const faceCascadeFile = "haarcascade_frontalface_default.xml";
   utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, () => {
-    let src = cv.imread(srcImg);
+    src = cv.imread(srcImg);
     let gray = new cv.Mat();
     cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY, 0);
-    let faces = new cv.RectVector();
+    faces = new cv.RectVector();
     let faceCascade = new cv.CascadeClassifier();
     faceCascade.load(faceCascadeFile);
     let msize = new cv.Size(0, 0);
@@ -49,60 +60,49 @@ findFaceBtn.addEventListener("click", (e) => {
       roiGray.delete();
       roiSrc.delete();
     }
-
-    cv.imshow("dest-canvas", src);
-    // src.delete();
     gray.delete();
-
-    var continuous = false;
-    var isInArea = false;
-    var targetId = null;
-    var ctx = canvas.getContext("2d");
-
-    /* Set the initial value */
-    ctx.rect(0, 0, 0, 0);
-
-    canvas.addEventListener("mousemove", (e) => {
-      for (let i = 0; i < faces.size(); ++i) {
-        if (ctx.isPointInPath(e.offsetX, e.offsetY)) {
-          if (!continuous) {
-            ctx.fillStyle = "rgba(255, 0, 255, 0.2)";
-            ctx.fill();
-            targetId = indexAdjust(i - 1, faces.size() - 1);
-          }
-          continuous = true;
-          isInArea = true;
-        } else {
-          continuous = false;
-          isInArea = false;
-          cv.imshow("dest-canvas", src);
-          // src.delete();
-          ctx.rect(
-            faces.get(i).x,
-            faces.get(i).y,
-            faces.get(i).width,
-            faces.get(i).height
-          );
-        }
-      }
-    });
-
-    canvas.addEventListener("click", (e) => {
-      if (targetId != null && isInArea) {
-        isSelected = true;
-        let dst = new cv.Mat();
-        let rect = new cv.Rect(
-          faces.get(targetId).x,
-          faces.get(targetId).y,
-          faces.get(targetId).width,
-          faces.get(targetId).height
-        );
-        dst = cv.imread(srcImg).roi(rect);
-        cv.imshow("face-canvas", dst);
-        // dst.delete();
-      }
-    });
+    cv.imshow("dest-canvas", src);
   });
+});
+
+canvas.addEventListener("mousemove", (e) => {
+  for (let i = 0; i < faces.size(); ++i) {
+    if (ctx.isPointInPath(e.offsetX, e.offsetY)) {
+      if (!continuous) {
+        ctx.fillStyle = "rgba(255, 0, 255, 0.2)";
+        ctx.fill();
+        targetId = indexAdjust(i - 1, faces.size() - 1);
+      }
+      continuous = true;
+      isInArea = true;
+    } else {
+      continuous = false;
+      isInArea = false;
+      cv.imshow("dest-canvas", src);
+      ctx.rect(
+        faces.get(i).x,
+        faces.get(i).y,
+        faces.get(i).width,
+        faces.get(i).height
+      );
+    }
+  }
+});
+
+canvas.addEventListener("click", (e) => {
+  if (targetId != null && isInArea) {
+    isSelected = true;
+    let dst = new cv.Mat();
+    let rect = new cv.Rect(
+      faces.get(targetId).x,
+      faces.get(targetId).y,
+      faces.get(targetId).width,
+      faces.get(targetId).height
+    );
+    dst = cv.imread(srcImg).roi(rect);
+    cv.imshow("face-canvas", dst);
+    dst.delete();
+  }
 });
 
 predictBtn.addEventListener("click", (e) => {
