@@ -7,6 +7,7 @@ const predictBtn = document.getElementById("predict-btn");
 let ctx = canvas.getContext("2d");
 let isInArea = false;
 let isSelected = false;
+let isDetected = false;
 let continuous = false;
 let targetId = null;
 let src;
@@ -52,6 +53,7 @@ findFaceBtn.addEventListener("click", (e) => {
   });
   fileInput.disabled = true;
   findFaceBtn.disabled = true;
+  isDetected = true;
 });
 
 predictBtn.addEventListener("click", (e) => {
@@ -124,25 +126,27 @@ predictBtn.addEventListener("click", (e) => {
 });
 
 canvas.addEventListener("mousemove", (e) => {
-  for (let i = 0; i < faces.size(); ++i) {
-    if (ctx.isPointInPath(e.offsetX, e.offsetY)) {
-      if (!continuous) {
-        ctx.fillStyle = "rgba(255, 0, 255, 0.2)";
-        ctx.fill();
-        targetId = indexAdjust(i - 1, faces.size() - 1);
+  if (isDetected) {
+    for (let i = 0; i < faces.size(); ++i) {
+      if (ctx.isPointInPath(e.offsetX, e.offsetY)) {
+        if (!continuous) {
+          ctx.fillStyle = "rgba(255, 0, 255, 0.2)";
+          ctx.fill();
+          targetId = indexAdjust(i - 1, faces.size() - 1);
+        }
+        continuous = true;
+        isInArea = true;
+      } else {
+        continuous = false;
+        isInArea = false;
+        cv.imshow("dest-canvas", src);
+        ctx.rect(
+          faces.get(i).x,
+          faces.get(i).y,
+          faces.get(i).width,
+          faces.get(i).height
+        );
       }
-      continuous = true;
-      isInArea = true;
-    } else {
-      continuous = false;
-      isInArea = false;
-      cv.imshow("dest-canvas", src);
-      ctx.rect(
-        faces.get(i).x,
-        faces.get(i).y,
-        faces.get(i).width,
-        faces.get(i).height
-      );
     }
   }
 });
