@@ -2,7 +2,7 @@ const srcImg = document.getElementById("src-image");
 const fileInput = document.getElementById("input-file");
 const canvas = document.getElementById("dest-canvas");
 const hiddenCanvas = document.getElementById("hidden-canvas");
-const findFaceBtn = document.getElementById("findface-btn");
+const detectFaceBtn = document.getElementById("detectface-btn");
 const predictBtn = document.getElementById("predict-btn");
 let ctx = canvas.getContext("2d");
 let isInArea = false;
@@ -24,7 +24,7 @@ fileInput.addEventListener(
   false
 );
 
-findFaceBtn.addEventListener("click", (e) => {
+detectFaceBtn.addEventListener("click", (e) => {
   const utils = new Utils("errorMessage");
   const faceCascadeFile = "haarcascade_frontalface_default.xml";
   utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, () => {
@@ -52,7 +52,7 @@ findFaceBtn.addEventListener("click", (e) => {
     cv.imshow("dest-canvas", src);
   });
   fileInput.disabled = true;
-  findFaceBtn.disabled = true;
+  detectFaceBtn.disabled = true;
   isDetected = true;
 });
 
