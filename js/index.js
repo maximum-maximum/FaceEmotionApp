@@ -73,20 +73,23 @@ predictBtn.addEventListener("click", (e) => {
       const MODEL_HEIGHT = model.input.shape[1];
       const MODEL_WIDTH = model.input.shape[2];
 
-      /* Read image and convert into tensor */
-      let inputTensor = tf.browser.fromPixels(faceCanvas, 3); // get rgb (without alpha)
+      const accuracyScores = tf.tidy(() => {
+        /* Read image and convert into tensor */
+        let inputTensor = tf.browser.fromPixels(faceCanvas, 3); // get rgb (without alpha)
 
-      /* Resize to model input size (48x48) */
-      inputTensor = inputTensor.resizeBilinear([MODEL_HEIGHT, MODEL_WIDTH]);
+        /* Resize to model input size (48x48) */
+        inputTensor = inputTensor.resizeBilinear([MODEL_HEIGHT, MODEL_WIDTH]);
 
-      /* Convert to grayscale (keep dimension(HWC))*/
-      inputTensor = inputTensor.mean(2, true);
+        /* Convert to grayscale (keep dimension(HWC))*/
+        inputTensor = inputTensor.mean(2, true);
 
-      /* Expand dimension (HWC -> NHWC) */
-      inputTensor = inputTensor.expandDims();
+        /* Expand dimension (HWC -> NHWC) */
+        inputTensor = inputTensor.expandDims();
 
-      /* Inference */
-      const accuracyScores = model.predict(inputTensor).dataSync();
+        /* Inference */
+        return model.predict(inputTensor).dataSync();
+      });
+
       for (let i = 0; i < emotions.length; ++i) {
         console.log(emotions[i] + ": " + accuracyScores[i]);
       }
