@@ -135,6 +135,10 @@ canvas.addEventListener("mousemove", (e) => {
         if (!continuous) {
           ctx.fillStyle = "rgba(255, 0, 255, 0.2)";
           ctx.fill();
+          let indexAdjust = (x, y) => {
+            if (x >= 0) return x;
+            else return y;
+          };
           targetId = indexAdjust(i - 1, faces.size() - 1);
         }
         isInArea = true;
@@ -169,11 +173,3 @@ canvas.addEventListener("click", (e) => {
     isSelected = true;
   }
 });
-
-function indexAdjust(x, y) {
-  if (x >= 0) {
-    return x;
-  } else {
-    return y;
-  }
-}
