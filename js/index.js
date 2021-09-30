@@ -114,15 +114,14 @@ predictBtn.addEventListener("click", (e) => {
           emotions[accuracyScores.indexOf(orderedAccuracyScores[index])];
 
         /* Show Accuracy */
-        if (String(orderedAccuracyScores[index]).indexOf(0)) {
+        if (String(orderedAccuracyScores[index]).indexOf(0))
           element.childNodes[3].innerText = Num2FracStr(
             orderedAccuracyScores[index]
           ).slice(0, 8);
-        } else {
+        else
           element.childNodes[3].innerText = String(
             orderedAccuracyScores[index]
           ).slice(0, 8);
-        }
       });
     });
   }
