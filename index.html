@@ -12,46 +12,35 @@
     <hr />
 
     <div class="wrapper">
+      <h3>Face Detection</h3>
       <div class="upper-content">
-        <h3>Face Detection</h3>
-        <table>
-          <tr>
-            <th id="source">Source</th>
-            <th id="output"></th>
-          </tr>
-          <tr>
-            <td>
-              <img id="src-image" src="./img/lena.jpg" />
-            </td>
-            <td>
-              <canvas id="dest-canvas"></canvas>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="file" id="input-file" />
-            </td>
-            <td>
-              <input type="button" value="顔検出" id="detectface-btn" />
-              <input type="button" value="予測" id="predict-btn" />
-              <input
-                type="button"
-                value="リセット"
-                onclick="window.location.reload();"
-              />
-            </td>
-          </tr>
-        </table>
+        <div class="source">
+          <a id="source">Source</a>
+          <img id="src-image" src="./img/lena.jpg" />
+          <input type="file" id="input-file" />
+        </div>
+        <div class="output">
+          <a id="output"></a>
+          <canvas id="dest-canvas"></canvas>
+          <br />
+          <input type="button" value="顔検出" id="detectface-btn" />
+          <input type="button" value="予測" id="predict-btn" />
+          <input
+            type="button"
+            value="リセット"
+            onclick="window.location.reload();"
+          />
+        </div>
       </div>
       <hr />
 
+      <h3>Emotion Prediction</h3>
       <div class="bottom-content">
-        <h3>Result</h3>
         <div class="face-canvas">
           <canvas id="face-canvas"></canvas>
         </div>
-        <div class="result-table">
-          <table>
+        <div>
+          <table class="result-table">
             <thead>
               <tr>
                 <th id="emotion"></th>
