@@ -2,9 +2,9 @@ const srcImg = document.getElementById("src-image");
 const fileInput = document.getElementById("input-file");
 const canvas = document.getElementById("dest-canvas");
 const faceCanvas = document.getElementById("face-canvas");
-const hiddenCanvas = document.getElementById("hidden-canvas");
 const detectFaceBtn = document.getElementById("detectface-btn");
 const predictBtn = document.getElementById("predict-btn");
+const elements = document.querySelectorAll(".result");
 const ctx = canvas.getContext("2d");
 let isInArea = false;
 let isSelected = false;
@@ -51,6 +51,13 @@ detectFaceBtn.addEventListener("click", (e) => {
     }
     gray.delete();
     cv.imshow("dest-canvas", src);
+  });
+  document.getElementById("output").innerText = "Output";
+  document.getElementById("emotion").innerText = "Emotion";
+  document.getElementById("accuracy").innerText = "Accuracy";
+  elements.forEach((element) => {
+    element.childNodes[1].innerText = "-";
+    element.childNodes[3].innerText = "-";
   });
   fileInput.disabled = true;
   detectFaceBtn.disabled = true;
@@ -101,7 +108,6 @@ predictBtn.addEventListener("click", (e) => {
       const maxAccuracyIndex = accuracyScores.indexOf(
         Math.max.apply(null, accuracyScores)
       );
-      const elements = document.querySelectorAll(".result");
       elements.forEach((element, index) => {
         element.parentNode.classList.remove("is-selected");
         const rowIndex = Number(element.dataset.rowIndex);
