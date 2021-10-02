@@ -23,6 +23,7 @@ img {
   width: 807px;
   /* border: solid 1px #000; */
   margin: 0 auto;
+  padding: 0 0 15px;
 }
 
 .bottom-content {
@@ -35,42 +36,3 @@ img {
 .result-table {
   /* margin: 0 auto; */
 }
-
-.result-table {
-  margin: 0 0 0 30px;
-}
-
-/* @media screen and (max-width: 600px) {
-  table {
-    width: 100%;
-  }
-
-  .wrapper {
-  background-color: #eeeeee;
-}
-
-img {
-  width: 100%;
-}
-
-#face-canvas {
-  width: 200px;
-  float: left;
-}
-
-p {
-  text-align: center;
-}
-
-.source,
-.output {
-  width: 400px;
-  display: inline-block;
-}
-
-.upper-content {
-  width: 100%;
-  margin: 0 auto;
-  max-width: 400px;
-}
-} */
