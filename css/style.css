@@ -90,3 +90,7 @@ table td {
   width: 25%;
   padding: 8px 0;
 }
+.button {
+  width: 100px;
+  padding: 1px 0px;
+}
