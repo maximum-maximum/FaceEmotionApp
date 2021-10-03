@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="./css/style.css" />
     <title>Face Emotion App</title>
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
   </head>
 
   <body>
@@ -11,73 +11,75 @@
     </header>
     <hr />
 
-    <div class="wrapper">
-      <h3>Face Detection</h3>
-      <div class="upper-content">
-        <div class="source">
-          <a id="source">Source</a>
-          <img id="src-image" src="./img/lena.jpg" />
-          <input type="file" id="input-file" />
-        </div>
-        <div class="output">
-          <a id="output"></a>
-          <canvas id="dest-canvas"></canvas>
-          <br />
-          <input type="button" value="顔検出" id="detectface-btn" />
-          <input type="button" value="予測" id="predict-btn" />
-          <input
-            type="button"
-            value="リセット"
-            onclick="window.location.reload();"
-          />
+    <div class="container">
+      <div class="face-detection">
+        <h3>Face Detection</h3>
+        <div class="upper-content">
+          <div class="source">
+            <a id="source">Source</a>
+            <img id="src-image" src="./img/lena.jpg" />
+            <input type="file" id="input-file" />
+          </div>
+          <div class="output">
+            <a id="output"></a>
+            <canvas id="dest-canvas"></canvas>
+            <br />
+            <input type="button" value="顔検出" id="detectface-btn" />
+            <input type="button" value="予測" id="predict-btn" />
+            <input
+              type="button"
+              value="リセット"
+              onclick="window.location.reload();"
+            />
+          </div>
         </div>
       </div>
       <hr />
 
-      <h3>Emotion Prediction</h3>
-      <div class="bottom-content">
-        <div class="face-canvas">
-          <canvas id="face-canvas"></canvas>
-        </div>
-        <div>
-          <table class="result-table">
-            <thead>
+      <div class="emotion-prediction">
+        <h3>Emotion Prediction</h3>
+        <div class="bottom-content">
+          <div class="selected-image">
+            <a id="selected-image"></a>
+            <canvas id="face-canvas"></canvas>
+          </div>
+          <div class="res">
+            <a id="res"></a>
+            <table class="result-table" id="result-table">
               <tr>
                 <th id="emotion"></th>
                 <th id="accuracy"></th>
               </tr>
-            </thead>
-            <tbody>
               <tr class="result">
-                <th class="emotion" data-row-index="0"></th>
+                <td class="emotion" data-row-index="0"></td>
                 <td class="accuracy" data-row-index="0"></td>
               </tr>
               <tr class="result">
-                <th class="emotion" data-row-index="1"></th>
+                <td class="emotion" data-row-index="1"></td>
                 <td class="accuracy" data-row-index="1"></td>
               </tr>
               <tr class="result">
-                <th class="emotion" data-row-index="2"></th>
+                <td class="emotion" data-row-index="2"></td>
                 <td class="accuracy" data-row-index="2"></td>
               </tr>
               <tr class="result">
-                <th class="emotion" data-row-index="3"></th>
+                <td class="emotion" data-row-index="3"></td>
                 <td class="accuracy" data-row-index="3"></td>
               </tr>
               <tr class="result">
-                <th class="emotion" data-row-index="4"></th>
+                <td class="emotion" data-row-index="4"></td>
                 <td class="accuracy" data-row-index="4"></td>
               </tr>
               <tr class="result">
-                <th class="emotion" data-row-index="5"></th>
+                <td class="emotion" data-row-index="5"></td>
                 <td class="accuracy" data-row-index="5"></td>
               </tr>
               <tr class="result">
-                <th class="emotion" data-row-index="6"></th>
+                <td class="emotion" data-row-index="6"></td>
                 <td class="accuracy" data-row-index="6"></td>
               </tr>
-            </tbody>
-          </table>
+            </table>
+          </div>
         </div>
       </div>
     </div>

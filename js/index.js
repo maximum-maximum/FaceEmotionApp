@@ -53,6 +53,9 @@ detectFaceBtn.addEventListener("click", (e) => {
     cv.imshow("dest-canvas", src);
   });
   document.getElementById("output").innerText = "Output";
+  document.getElementById("selected-image").innerText = "Selected Image";
+  document.getElementById("res").innerText = "Result";
+  document.getElementById("result-table").style.visibility = "visible";
   document.getElementById("emotion").innerText = "Emotion";
   document.getElementById("accuracy").innerText = "Accuracy";
   elements.forEach((element) => {
@@ -117,6 +120,9 @@ predictBtn.addEventListener("click", (e) => {
 
         /* Show Emotion */
         element.childNodes[1].innerText =
+          index +
+          1 +
+          ". " +
           emotions[accuracyScores.indexOf(orderedAccuracyScores[index])];
 
         /* Show Accuracy */
