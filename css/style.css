@@ -2,17 +2,34 @@
   margin: 0px;
   padding: 0px;
 }
+header {
+  display: flex;
+  background-color: #8103a0d3;
+  align-items: center;
+}
 body {
   height: 100%;
-  background-color: #f9fdf5;
+  background-color: #faf5fd;
+  color: #000000b7;
 }
 h1 {
-  background-color: #25d33cd5;
   color: aliceblue;
   padding: 10px 15px;
+  width: 100%;
 }
 h3 {
   padding: 10px 15px 0;
+}
+svg {
+  padding: 10px 20px;
+  fill: aliceblue;
+}
+hr {
+  border-top: solid 1px #eee;
+}
+a {
+  font-weight: bold;
+  /* border: solid 1px #000; */
 }
 img {
   width: 100%;
@@ -50,7 +67,7 @@ img {
 #face-canvas {
   width: 200px;
   float: left;
-  padding: 15px 0;
+  padding: 10px 0;
 }
 .result-table {
   visibility: hidden;
