@@ -126,14 +126,11 @@ predictBtn.addEventListener("click", (e) => {
           emotions[accuracyScores.indexOf(orderedAccuracyScores[index])];
 
         /* Show Accuracy */
-        if (String(orderedAccuracyScores[index]).indexOf(0))
-          element.childNodes[3].innerText = Num2FracStr(
-            orderedAccuracyScores[index]
-          ).slice(0, 8);
-        else
-          element.childNodes[3].innerText = String(
-            orderedAccuracyScores[index]
-          ).slice(0, 8);
+        element.childNodes[3].innerText = ((head) => {
+          if (head)
+            return Num2FracStr(orderedAccuracyScores[index]).slice(0, 8);
+          else return String(orderedAccuracyScores[index]).slice(0, 8);
+        })(String(orderedAccuracyScores[index]).indexOf(0));
       });
     });
   }
@@ -146,11 +143,10 @@ canvas.addEventListener("mousemove", (e) => {
         if (!continuous) {
           ctx.fillStyle = "rgba(255, 0, 255, 0.2)";
           ctx.fill();
-          let indexAdjust = (x, y) => {
+          targetId = ((x, y) => {
             if (x >= 0) return x;
             else return y;
-          };
-          targetId = indexAdjust(i - 1, faces.size() - 1);
+          })(i - 1, faces.size() - 1);
         }
         isInArea = true;
         continuous = true;
