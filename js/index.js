@@ -112,12 +112,6 @@ predictBtn.addEventListener("click", (e) => {
         Math.max.apply(null, accuracyScores)
       );
       elements.forEach((element, index) => {
-        element.parentNode.classList.remove("is-selected");
-        const rowIndex = Number(element.dataset.rowIndex);
-        if (maxAccuracyIndex === rowIndex) {
-          element.parentNode.classList.add("is-selected");
-        }
-
         /* Show Emotion */
         element.childNodes[1].innerText =
           index +
@@ -126,11 +120,10 @@ predictBtn.addEventListener("click", (e) => {
           emotions[accuracyScores.indexOf(orderedAccuracyScores[index])];
 
         /* Show Accuracy */
-        element.childNodes[3].innerText = ((head) => {
-          if (head)
-            return Num2FracStr(orderedAccuracyScores[index]).slice(0, 8);
-          else return String(orderedAccuracyScores[index]).slice(0, 8);
-        })(String(orderedAccuracyScores[index]).indexOf(0));
+        element.childNodes[3].innerText = ((score) => {
+          if (String(score).indexOf(0)) return Num2FracStr(score).slice(0, 8);
+          else return String(score).slice(0, 8);
+        })(orderedAccuracyScores[index]);
       });
     });
   }
