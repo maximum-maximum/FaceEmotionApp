@@ -1,5 +1,7 @@
 # FaceEmotionApp
 
+Facial emotion recognition application using OpenCV and Tensorflow running in a web browser
+
 ## How to use the app
 
 1. Go to https://maximum-maximum.github.io/FaceEmotionApp/ .
@@ -25,4 +27,4 @@
 
 4. `docker build .`
 
-5. `docker run -p <optional port>:8888 -v ~/.../FaceEmotionApp/:/work --name <optional name> <IMAGE ID>`
+5. `docker run -p <OPTIONAL PORT>:8888 -v ~/<PATH>/FaceEmotionApp/:/work --name <OPTIONAL NAME> <IMAGE ID>`
