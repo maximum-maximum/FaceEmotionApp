@@ -15,7 +15,7 @@ ENV PATH /opt/anaconda3/bin:$PATH
 
 RUN pip install --upgrade \
     pip \
-    tensorflow
+    tensorflow==2.7.0
 
 WORKDIR /
 
