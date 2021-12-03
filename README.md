@@ -25,6 +25,6 @@ Facial emotion recognition application using OpenCV and Tensorflow running in a 
 
 3. `cd FaceEmotionApp`
 
-4. `docker build .`
+4. `docker build -t <OPTIONAL IMAGE NAME> .`
 
-5. `docker run -p <OPTIONAL PORT>:8888 -v ~/<PATH>/FaceEmotionApp/:/work --name <OPTIONAL NAME> <IMAGE ID>`
+5. `docker run -p <OPTIONAL PORT>:8888 -v $PWD:/src --name <OPTIONAL NAME> <IMAGE NAME>`
