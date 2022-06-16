@@ -14,7 +14,7 @@ Facial emotion recognition application using OpenCV and Tensorflow running in a 
 
 5. Press the Predict button to see the results.
 
-## How to set up
+## How to set up the learning environment
 
 1. Install Docker
 
@@ -25,6 +25,4 @@ Facial emotion recognition application using OpenCV and Tensorflow running in a 
 
 3. `cd FaceEmotionApp`
 
-4. `docker build -t <OPTIONAL IMAGE NAME> .`
-
-5. `docker run -p <OPTIONAL PORT>:8888 -v $PWD:/src --name <OPTIONAL NAME> <IMAGE NAME>`
+4. `docker-compose up`
