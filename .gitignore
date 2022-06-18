@@ -141,3 +141,4 @@ cython_debug/
 .vscode
 challenges-in-representation-learning-facial-expression-recognition-challenge
 *.h5
+img/square
