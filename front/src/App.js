@@ -1,23 +1,54 @@
-import logo from "./logo.svg";
+import { ReactComponent as Github } from "./github.svg";
 import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+      <Header />
+      <Detection />
+      <Prediction />
+      <Footer />
+    </div>
+  );
+}
+
+function Header() {
+  return (
+    <div>
+      <header>
+        <h1>Face Emotion App</h1>
         <a
-          className="App-link"
-          href="https://reactjs.org"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noreferrer"
+          href="https://github.com/maximum-maximum/FaceEmotionApp"
         >
-          Learn React
+          <Github />
         </a>
       </header>
+    </div>
+  );
+}
+
+function Detection() {
+  return (
+    <div>
+      <p>hoge</p>
+    </div>
+  );
+}
+
+function Prediction() {
+  return (
+    <div>
+      <p>hoge</p>
+    </div>
+  );
+}
+
+function Footer() {
+  return (
+    <div>
+      <p>hoge</p>
     </div>
   );
 }
