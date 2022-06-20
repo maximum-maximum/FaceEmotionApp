@@ -42,7 +42,7 @@ function Detection() {
       <div className="upper-content">
         <div className="source">
           <a id="source">Source</a>
-          <img id="src-image" src={Lena} />
+          <img id="src-image" src={Lena} alt="lena" />
           <input type="file" id="input-file" />
         </div>
         <div className="output">
