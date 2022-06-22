@@ -30,7 +30,7 @@ function Detection() {
             type="button"
             className="button"
             value="リセット"
-            onclick="window.location.reload();"
+            onClick={() => window.location.reload()}
           />
         </div>
       </div>
